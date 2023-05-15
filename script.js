@@ -1,39 +1,62 @@
-// Get the form element
-const form = document.getElementById('myForm');
+document.addEventListener('DOMContentLoaded', () => {
+    const myList = document.querySelector('tbody'); //tbody
+    const addForm = document.getElementById('addForm'); //form
 
-// Get the table body element
-const tableBody = document.querySelector('#myTable tbody');
 
-// Listen for form submission
-form.addEventListener('submit', function(event) {
-  event.preventDefault(); // prevent the default form submission behavior
+    //delete row
+    myList.addEventListener('click', (e) => {
+        if (e.target.classList.contains('delete')) { //delete button
+            const tr = e.target.closest('tr'); //
+            tr.remove();
+        }
+    });
 
-  // Get the form data
-  const name = document.getElementById('name').value;
-  const idNumber = document.getElementById('id_number').value;
-  const country = document.getElementById('country').value;
-  const language = document.getElementById('language').value;
+    addForm.addEventListener('submit', (e) => {
+        e.preventDefault();
 
-  // Create a new row
-  const row = document.createElement('tr');
-  row.innerHTML = `
-    <td>${name}</td>
-    <td>${idNumber}</td>
-    <td>${country}</td>
-    <td>${language}</td>
-    <td>
-      <button class="delete-btn" onclick="deleteRow(this)">Delete</button>
-      <button class="update-btn" onclick="updateRow(this)">Update</button>
-    </td>
-  `;
+        const nameValue = addForm.querySelector('input[name="name"]').value;
+        const idValue = addForm.querySelector('input[name="idno"]').value;
+        const countryValue = addForm.querySelector('select[name="country"]').value;
+        const languageValue = addForm.querySelector('select[name="language"]').value;
 
-  // Add the new row to the table
-  tableBody.appendChild(row);
+        const tr = document.createElement('tr');
+        const nameCell = document.createElement('td');
+        const idCell = document.createElement('td');
+        const countryCell = document.createElement('td');
+        const languageCell = document.createElement('td');
+        const deleteBtnCell = document.createElement('td');
+        const deleteBtn = document.createElement('button');
 
-  // Reset the form
-  form.reset();
+        // Set text content
+        nameCell.textContent = nameValue;
+        idCell.textContent = idValue;
+        countryCell.textContent = countryValue;
+        languageCell.textContent = languageValue;
+        deleteBtn.textContent = 'Delete';
+
+        // Add classes
+        tr.classList.add('mylist');
+        deleteBtn.classList.add('delete');
+
+        // Append cells to the row
+        tr.appendChild(nameCell);
+        tr.appendChild(idCell);
+        tr.appendChild(countryCell);
+        tr.appendChild(languageCell);
+        deleteBtnCell.appendChild(deleteBtn);
+        tr.appendChild(deleteBtnCell);
+
+        // Append row to the table
+        myList.appendChild(tr);
+
+        // Clear input
+        addForm.querySelector('input[name="name"]').value = '';
+        addForm.querySelector('input[name="idno"]').value = '';
+        addForm.querySelector('select[name="country"]').value = '';
+        addForm.querySelector('select[name="language"]').value = '';
+    });
 });
 
-// Handle delete button click
-function deleteRow(btn) {
-  const row = btn.closest('tr
+
+
+
